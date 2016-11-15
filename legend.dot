@@ -1,0 +1,54 @@
+digraph legend {
+    // overlap=scalexy /* Prism produces better graphs than scale */
+    label="git@github.com:cevoaustralia/system-maps.git/legend.dot"
+    pack=true
+    compound=true
+    rankdir="TB"
+    ratio=0.7
+    size="48x36!"
+    mclimit=10
+    ranksep=1.5
+    layout=circo
+    splines=true  /* Compund tries to route lines around clusters */
+    graph [fontsize=32 fontname="Helvetica"]
+    node [fontname="Helvetica" fontsize=32 style=filled, fillcolor=red color=black] /* Catches undefined nodes */
+    edge [fontname="Helvetica" len=0.2 fontsize=32 penwidth=3 arrowsize=3.0]
+
+    Documents [label="Documents\nor Artifacts" shape=note, style=filled fillcolor=white]
+    Actors [label="Humans" shape=ellipse, style="filled,dashed" fillcolor=lightblue]
+    Actors2 [label="Humans" shape=ellipse, style="filled,dashed" fillcolor=lightblue]
+    Websites [shape=house, style=filled, fillcolor=palevioletred]
+
+    Hardware [shape=box3d, style=filled fillcolor=white]
+    Databases [shape=rect, style="rounded,filled", fillcolor=yellow label="Databases (MySQL and other)"]
+    Software [shape=tab, label="    Software    " style=filled fillcolor=grey]
+    Datastores [shape=folder, style=filled, fillcolor=SlateBlue1 label="Filesystems and data stores"]
+    "External Services" [shape=ellipse, style=filled fillcolor=green]
+    // "Cloud Services" [shape=tripleoctagon, style="filled", fillcolor=lightblue, color=black penwidth=2]
+    Queue [shape=Mdiamond, style="filled", fillcolor=bisque1, color=black]
+    cron_jobs [label="Cron Jobs" shape=pentagon style=filled fillcolor="#FFB54D"]
+
+    Actors -> Websites [label="use" dir=both color=blue fontcolor=blue]
+    Actors -> Actors2 [color=red fontcolor=red dir=both label="manual communication, email, etc"]
+    Actors -> Documents [label="deploy" color=cyan4 fontcolor=cyan4]
+    Queue -> Software [dir=both color=orange fontcolor=orange label="AMQP or similar"]
+    Software -> Hardware [label="Runs on" labelfloat=false penwidth=8 arrowsize=1.5]
+    cron_jobs -> Software [label="trigger" fontcolor=magenta color=magenta ]
+    cron_jobs -> Hardware [label="run on" penwidth=8 arrowsize=1.5]
+    Software -> Websites [label="provides" fontcolor=blue color=blue ]
+    "External Services" -> Software [color=red dir=both fontcolor=red label="communicate with" ]
+    Software -> Databases [color=LimeGreen dir=both label="SQL" penwidth=8 arrowsize=1.5 fontcolor=LimeGreen ]
+    Software -> Documents [color=brown fontcolor=brown dir=both label="reads/writes" ]
+    Documents -> Datastores [color=brown label="stored in" fontcolor=brown ]
+
+    Weight1 [style=filled shape=rect fillcolor=white label="Thicker lines indicate"]
+    Weight2 [style=filled shape=rect fillcolor=white label="tight coupling"]
+    Weight3 [style=filled shape=rect fillcolor=white label="tightest coupling"]
+    Weight4 [style=filled shape=rect fillcolor=white label="loose coupling"]
+    Weight1 -> Weight2 [penwidth=1 labelangle="90" labeldistance=7.0 headlabel="Synchronous but loose SLA"]
+    Weight1 -> Weight3 [penwidth=8 labeldistance=7.0 headlabel="Synchronous and strict SLA"]
+    Weight1 -> Weight4 [style="dashed" labeldistance=10.0 headlabel="Asynchronous/loose coupling"]
+}
+
+/* vim:syntax=dot ai ts=4 sw=4 expandtab
+*/
