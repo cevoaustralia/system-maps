@@ -1,7 +1,7 @@
-SRCS=legend.dot
+SRCS=basic-system-with-humans.dot
 DOT=dot
 TYPE ?= png
-DESTS=legend.$(TYPE)
+DESTS=basic-system-with-humans.$(TYPE)
 
 all: $(DESTS)
 
@@ -11,7 +11,3 @@ pdf:
 %.$(TYPE) : %.dot
 	$(DOT) -T$(TYPE) $< -o $@
 
-examples:
-	$(MAKE) -C examples all
-
-.PHONY: examples
