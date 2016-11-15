@@ -73,6 +73,15 @@ After a while, you'll have a pretty accurate picture of how things actually hang
   different place. This is a feature! It forces people to look at the graph as if it was
   completely new, and they see and capture systems and connections that would have been
   hidden before.
+* If you need to represent, for example, ownership of different components in a system
+  you can use node line-draw colouring to illustrate that; eg, a red-drawn database
+  (yellow fill, red outline) might be owned by one custodian, while a blue-drawn
+  database (yellow fill, blue outline) might be owned by another.
+* You can represent Service Level Agreements of different kinds of connection by making
+  edges heavier (thicker) or lighter (thinner, dashed/dotted).
+
+Most importantly:
+
 * Remember that this is a _process_. The first one will be wrong. The second one will, too.
   Even when you're "done", it will probably still be a bit wrong, but it'll be mostly
   right and then it starts being useful.
@@ -80,6 +89,14 @@ After a while, you'll have a pretty accurate picture of how things actually hang
   "level" and haven't let too much confounding data creep in. It's also quite possible
   that, yes, your system really is that complex and you're just going to have to print
   it on a bigger piece of paper. The record so far is `A0` just to be legible ...
+
+## Examples
+
+There's a `legend.dot` which shows some of the "standard" representations that have
+evolved. You do not need to stick to these colours or shapes. Use what works for your
+organisation.
+
+See the [examples directory](examples) for, well, more examples.
 
 ## Displaying/printing
 
