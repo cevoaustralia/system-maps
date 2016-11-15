@@ -1,0 +1,157 @@
+digraph trackside {
+    // overlap=scalexy /* Prism produces better graphs than scale */
+    label="git@github.com:cevoaustralia/system-maps.git/basic-system-with-humans.dot"
+    pack=true
+    compound=true
+    // rankdir="TB"
+    ratio=0.7
+    size="48x36!"
+    mclimit=10
+    ranksep=1.5
+    // layout=dot
+    splines=true  /* Compund tries to route lines around clusters */
+    graph [fontsize=32 fontname="Helvetica"]
+    node [fontname="Helvetica" fontsize=32 style=filled, color=red] /* Catches undefined nodes */
+    edge [fontname="Helvetica" len=0.2 fontsize=32 penwidth=3 arrowsize=3.0]
+
+    /*
+    subgraph cluster_legend {
+        label="Legend"
+        style=filled
+        color=gainsboro
+
+        node [color=black]
+
+        Weight1 [style=filled shape=rect fillcolor=white label="Thicker lines indicate"]
+        Weight2 [style=filled shape=rect fillcolor=white label="tight coupling"]
+        Weight3 [style=filled shape=rect fillcolor=white label="tightest coupling"]
+        Weight4 [style=filled shape=rect fillcolor=white label="loose coupling"]
+        Weight1 -> Weight2 [penwidth=1 label="Synchronous but loose SLA"]
+        Weight1 -> Weight3 [penwidth=8 label="Synchronous and strict SLA"]
+        Weight1 -> Weight4 [style="dashed" label="Asynchronous/loose coupling"]
+
+        Actors [shape=ellipse, style="filled,dashed" fillcolor=lightblue]
+        Documents [shape=note, style=filled fillcolor=white]
+        Websites [shape=house, style=filled, fillcolor=palevioletred]
+
+        Hardware [shape=box3d, style=filled fillcolor=white]
+        Databases [shape=rect, style="rounded,filled", fillcolor=yellow label="Databases (MySQL and other)"]
+        Software [shape=tab, label="    Software    " style=filled fillcolor=grey]
+        Datastores [shape=folder, style=filled, fillcolor=SlateBlue1 label="Filesystems and data stores"]
+        "External Services" [shape=ellipse, style=filled fillcolor=green]
+        "Cloud Services" [shape=tripleoctagon, style="filled", fillcolor=lightblue, color=black penwidth=2]
+        Queue [shape=Mdiamond, style="filled", fillcolor=bisque1, color=black]
+        "Cron Jobs" [shape=pentagon style=filled fillcolor="#FFB54D"]
+
+        Queue -> Software [color=lightblue labelfloat=false]
+        Software -> Hardware [color=orange label="Runs on" labelfloat=false]
+        "Cron Jobs" -> Software [label="trigger" labelfloat=false]
+        "Cron Jobs" -> Hardware [color=orange labelfontcolor=orange label="run on" labelfloat=false]
+        Software -> Websites [label="provides" color=magenta labelfloat=false]
+        "External Services" -> Software [color=red label="communicate with" labelfloat=false]
+        Software -> Databases [color=LimeGreen label="SQL" labelfloat=false]
+        Software -> Documents [color=blue label="reads/writes" labelfloat=false]
+        Documents -> Datastores [color=maroon label="stored in" labelfloat=false]
+    }
+    */
+
+    {   /* Datastores */
+        node [shape=folder, style=filled, fillcolor=LightSkyBlue color=coral penwidth=5]
+        H_drive [label="H: Drive"]
+    }
+
+    {   /* Documents/Reports */
+        node [shape=note, style=filled fillcolor=white, color=coral penwidth=5]
+        email_to_marketing [label="Email to Marketing"]
+    }
+
+    {   /* Internal Actors */
+        node [shape=ellipse, style="filled,dashed" fillcolor=lightblue color=sienna1 penwidth=5]
+
+        bob [label="Bob"]
+        jenny [label="Jenny"]
+        developer [label="Developers"]
+    }
+
+    {
+        /* External Documents */
+        node [shape=note, fillcolor=green color=coral penwidth=5]
+        email_to_auditors [label="Email to Auditors"]
+
+    }
+
+    {
+        /* Hardware */
+        node [shape=box3d, fillcolor=white color=coral penwidth=5]
+        server_1 [label="Server 1"]
+        server_2 [label="Server 2"]
+    }
+
+    {   /* Databases */
+        node [shape=rect, style="rounded,filled", fillcolor=yellow, color=coral penwidth=5]
+        db_1 [label="DB 1\nPostgres"]
+    }
+
+    {   /* Defined Queues */
+        node [shape=Mdiamond, style="filled", fillcolor=bisque1, color=coral penwidth=2]
+    }
+
+    { /* CronJob-style things */
+        node [shape=pentagon style=filled fillcolor="#FFB54D" color=coral penwidth=5]
+    }
+
+    {   /* Database Triggers (EEK!) */
+        node [shape=rpromoter, style=filled fillcolor=red color=coral penwidth=5]
+    }
+
+    {   /* Systems external to this map but within your organisation */
+        node [shape=ellipse, style="rounded,filled", fillcolor=tan color=coral penwidth=5]
+        cheezwiz [label="CheezWiz"]
+    }
+
+    {   /* Software */
+        node [shape=tab, style=filled fillcolor=grey color=coral penwidth=5]
+        app_1 [label="Application 1"]
+        app_2 [label="Application 2"]
+        deploy_script [label="Deploy script"]
+        jenkins [label="Jenkins\nBuild server"]
+
+    }
+
+    { /* External Services (outside Tabcorp) */
+        node [shape=ellipse, style=filled fillcolor=green color=coral penwidth=5]
+        github [label="GitHub"]
+        auditors [label="Big Important Audit Company"]
+    }
+
+    { /* Internal websites */
+        node [shape=house, style=filled, fillcolor=palevioletred color=coral penwidth=5]
+        app_interface [label="app.internal.example.com"]
+    }
+
+    app_1 -> db_1 [color=LimeGreen label="SQL" fontcolor=LimeGreen]
+    app_2 -> app_1 [color=blue label="HTTP" fontcolor=blue]
+
+    app_1 -> server_1 [color=orange]
+    db_1 -> server_1 [color=orange]
+
+    subgraph cluster_development {
+        label="Development Pipeline"
+        developer -> github [label="SSH"]
+        github -> jenkins [label="Checkout & build"]
+        jenny -> deploy_script [label="run"]
+        jenkins -> deploy_script [label="pull"]
+    }
+
+    deploy_script -> server_1 [label="deploy"]
+    deploy_script -> server_2 [label="deploy"]
+
+    app_2 -> email_to_marketing
+    email_to_marketing -> H_drive -> bob -> email_to_auditors -> auditors
+    app_interface -> app_2 [label="HTTP" color=blue fontcolor=blue dir=both]
+    app_2 -> cheezwiz [label="HTTP/JSON" color=blue fontcolor=blue]
+
+}
+
+/* vim:syntax=dot ai ts=4 sw=4 expandtab
+*/
