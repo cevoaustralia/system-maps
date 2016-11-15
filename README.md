@@ -44,6 +44,12 @@ This is really basic, but it goes roughly like this:
 
 After a while, you'll have a pretty accurate picture of how things actually hang together.
 
+### Important
+
+Remember that this is a _process_. The first one will be wrong. The second one will, too.
+Even when you're "done", it will probably still be a bit wrong, but it'll be mostly
+right and then it starts being useful.
+
 ### Notes and thoughts on graph elements
 
 * Make it really, really clear that you are not capturing data to judge or blame. You
@@ -79,12 +85,6 @@ After a while, you'll have a pretty accurate picture of how things actually hang
   database (yellow fill, blue outline) might be owned by another.
 * You can represent Service Level Agreements of different kinds of connection by making
   edges heavier (thicker) or lighter (thinner, dashed/dotted).
-
-Most importantly:
-
-* Remember that this is a _process_. The first one will be wrong. The second one will, too.
-  Even when you're "done", it will probably still be a bit wrong, but it'll be mostly
-  right and then it starts being useful.
 * If the graph starts getting too complex, check that you're capturing data at the same
   "level" and haven't let too much confounding data creep in. It's also quite possible
   that, yes, your system really is that complex and you're just going to have to print
